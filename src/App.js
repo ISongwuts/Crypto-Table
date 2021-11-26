@@ -10,10 +10,29 @@ function App() {
     const fetchCoins = async () => {
         try{
             const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false')
+            const data = await res.json()
+            setCoins(data)
         }catch(e){
             alert("API Err")
         }
     }
+
+    useEffect(() => {
+        fetchCoins();
+    },[]);
+
+    const columns = [
+        {
+            title: "Name",
+            key: "name",
+            width: 200,
+            render: (value, object) => {
+                <div style={{display: "flex", alignItems: "center"}}>
+                    <img height="20px" width="20px"  src={object?.image} alt="ccoin"/>
+                </div>
+            }
+        }
+    ]
 
   return (
     <div className="App">
